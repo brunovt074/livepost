@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * 
+ * - Factory classes are used to generate fake models
  */
 class UserFactory extends Factory
 {
