@@ -43,6 +43,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * We use BelongToMany() is used to define many to many relationship.
+     * We use attach(), detach(), toggle() and sync() to associate relations.
+     */
     public function posts()
     {
         return $this->belongsToMany(Post::class,'post_user','post_id','user_id');

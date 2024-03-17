@@ -14,11 +14,17 @@ class Post extends Model
         'body' => 'array',
     ];
 
+
+    /**
+    * Accessors and mutators transform values when we retrieve/set model attributes. 
+    */
+    //Accessor
     public function getTitleUpperCaseAttribute()
     {
         return strtoupper($this->title);
     }
 
+    //Mutator
     public function setTitleAttribute($value){
         $this->attributes['title'] = strtolower($value);
     }
