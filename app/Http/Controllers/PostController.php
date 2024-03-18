@@ -14,12 +14,20 @@ class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * - Pagination is a notion of displaying our query results by page,
+     * otherwise we would have to send everything to the client.
      * 
+     * - We call the paginate() method on our query to create a paginator.
+     * We can then pass the paginator to our resource collection for a paginated
+     * JSON response
+     * 
+     * @param Request
      * @return ResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::query()->get();
+        $pageSize = $request->page_size ?? 20;
+        $posts = Post::query()->paginate($pageSize);
 
         return PostResource::collection($posts);
     }

@@ -25,9 +25,9 @@ class PostSeeder extends Seeder
 
         $this->truncate('posts');
 
-        $posts = Post::factory(3)
+        $posts = Post::factory(200)
         //->has(Comment::factory(3),'comments')//creates comments for this post
-        ->untitled()
+        //->untitled()
         ->create();
         //Assign a random user to each post with sync method (ManyToMany relationship)
         $posts->each(function (Post $post){
