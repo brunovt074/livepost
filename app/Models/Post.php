@@ -10,13 +10,30 @@ class Post extends Model
 {
     use HasFactory;
 
+    //Hides the title from the JsonResponse
+    // protected $hidden = [
+    //     'title'
+    // ];
+
     protected $fillable = [
         'title',
         'body'
     ];
+
+    //The opposite of $fillable
+    // protected $guarded = [
+    //     'title',
+    //     'body'
+    // ];
+    
     protected $casts = [
         'body' => 'array',
     ];
+
+    //implements accesor or mutator and adds the treated attribute to the JsonResponse
+    // protected $appends = [
+    //     'title_upper_case'
+    // ];
 
 
     /**
