@@ -51,7 +51,7 @@ class UserController extends Controller
     {
         return new JsonResponse([
             'data' => $user
-        ])
+        ]);
     }
 
     /**
