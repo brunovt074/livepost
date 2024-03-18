@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCommentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Models\Comment;
+use App\Http\Resources\CommentResource;
 
 class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * @return ResourceCollection
      */
     public function index()
     {
         $comments = Comment::query()->get();
-
-        return new JsonResponse([
-            'data' => $comments
-        ]);
+        return CommentResource::collection($comments);
     }
 
     /**
      * Store a newly created resource in storage.
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse 
+     * @return CommentResource 
      */
     public function store(Request $request)
     {
@@ -32,30 +31,25 @@ class CommentController extends Controller
             //'title' => $request->title,
             'body' => $request
         ]);
-
-        return new JsonResponse([
-            'data' => $created
-        ]);
+        return new CommentResource($created);
     }
 
     /**
      * Display the specified resource.
      * 
      * @param \App\Models\Comment $comment 
-     * @return \Illuminate\Http\JsonResponse 
+     * @return CommentResource
      */
     public function show(Comment $comment)
     {
-        return new JsonResponse([
-            'data' => $comment
-        ]);
+        return new CommentResource($comment);
     }
 
     /**
      * Update the specified resource in storage.
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Comment $comment 
-     * @return \Illuminate\Http\JsonResponse 
+     * @return CommentResource | JsonResponse 
      */
     public function update(Request $request, Comment $comment)
     {
@@ -68,10 +62,7 @@ class CommentController extends Controller
                 ]
             ], 400);
         }
-
-        return new JsonResponse([
-            'data' => $comment
-        ]);
+        return new CommentResource($comment);
     }
 
     /**
