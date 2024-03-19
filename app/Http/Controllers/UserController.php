@@ -81,7 +81,7 @@ class UserController extends Controller
      */
     public function destroy(User $user, UserRepository $repository)
     {
-        $deleted = $repository->forceDelete();
+        $deleted = $repository->forceDelete($user);
         
         return new JsonResponse([
             'data' => 'success'

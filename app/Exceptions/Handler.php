@@ -7,6 +7,15 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+     /**
+     * A list of the exception types that are not reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [
+        //        GeneralJsonException::class,
+            ];
+        
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -20,11 +29,16 @@ class Handler extends ExceptionHandler
 
     /**
      * Register the exception handling callbacks for the application.
+     * Here we can centralize de exceptions registration
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
+        $this->reportable(function (GeneralJsonException $e) {
             //
+        });
+
+        $this->renderable(function (GeneralJsonException $exception){
+            // ..
         });
     }
 }
