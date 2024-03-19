@@ -13,7 +13,7 @@ class CommentRepository extends BaseRepository
         return DB::transaction(function() use($attributes){
             
             $created = Comment::query()->create([
-                'title' => data_get($attributes, 'title'),
+                //'title' => data_get($attributes, 'title'),
                 'body' => data_get($attributes, 'body'),
                 'user_id' => data_get($attributes, 'user_id'),
                 'post_id' => data_get($attributes, 'post_id'),
@@ -34,7 +34,7 @@ class CommentRepository extends BaseRepository
         
         return DB::transaction(function() use($comment, $attributes){
             $updated = Comment::query()->update([
-                'title' => data_get($attributes, 'title'),
+                //'title' => data_get($attributes, 'title'),
                 'body' => data_get($attributes, 'body'),
                 'user_id' => data_get($attributes, 'user_id'),
                 'post_id' => data_get($attributes, 'post_id'),

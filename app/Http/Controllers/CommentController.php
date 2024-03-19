@@ -32,10 +32,10 @@ class CommentController extends Controller
     public function store(Request $request, CommentRepository $repository)
     {
         $created = $repository->create($request->only([
-            'title',
+            //'title',
             'body',
             'user_id',
-            'post_id]',
+            'post_id',
         ]));
        
         return new CommentResource($created);
@@ -61,7 +61,7 @@ class CommentController extends Controller
     public function update(Request $request, Comment $comment, CommentRepository $repository)
     {
         $comment = $repository->update($comment, $request->only([
-            'title',
+            //'title',
             'body',
             'user_id',
             'post_id'

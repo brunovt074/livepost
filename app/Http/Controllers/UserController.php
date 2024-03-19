@@ -33,10 +33,10 @@ class UserController extends Controller
      */
     public function store(Request $request, UserRepository $repository)
     {        
-
         $created = $repository->create($request->only([
             'name',
-            'email',            
+            'email',
+            'password'            
         ]));        
 
         return new UserResource($created);
