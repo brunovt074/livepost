@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Models\User\UserCreated;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -19,6 +20,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        event(new UserCreated(User::factory()->make()));
         $pageSize = $request->page_size ?? 20;
         $users = User::query()->paginate($pageSize);
 
