@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Models\Comment;
 use App\Http\Resources\CommentResource;
+use App\Repositories\CommentRepository;
 
 class CommentController extends Controller
 {
@@ -19,20 +20,24 @@ class CommentController extends Controller
     {
         $pageSize = $request->page_size ?? 20;
         $comments = Comment::query()->paginate($pageSize);
+        
         return CommentResource::collection($comments);
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request     * 
      * @return CommentResource 
      */
-    public function store(Request $request)
+    public function store(Request $request, CommentRepository $repository)
     {
-        $created = Comment::query()->create([
-            //'title' => $request->title,
-            'body' => $request
-        ]);
+        $created = $repository->create($request->only([
+            'title',
+            'body',
+            'user_id',
+            'post_id]',
+        ]));
+       
         return new CommentResource($created);
     }
 
@@ -53,17 +58,15 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment 
      * @return CommentResource | JsonResponse 
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Comment $comment, CommentRepository $repository)
     {
-        $updated = $comment->update($request->body);
-
-        if(!$updated){
-            return new JsonResponse([
-                'errors' => [
-                    'Failed to update model'
-                ]
-            ], 400);
-        }
+        $comment = $repository->update($comment, $request->only([
+            'title',
+            'body',
+            'user_id',
+            'post_id'
+        ]));
+        
         return new CommentResource($comment);
     }
 
@@ -73,16 +76,10 @@ class CommentController extends Controller
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment, CommentRepository $repository)
     {
-        $deleted = $comment->forceDelete();
-
-        if(!$deleted){
-            return new JsonResponse([
-                'errors'=>['Failed to delete resource']
-            ], 400);
-        }
-
+        $deleted = $repository->forceDelete($comment);
+        
         return new JsonResponse([
             'data' => 'success'
         ]);
